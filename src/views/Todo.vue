@@ -1,7 +1,17 @@
 <template>
   <div class="todo">
+    <v-text-field
+            outlined
+            hide-details
+            clearable
+            v-model="taskTitle"
+            class="pa-3 pb-1"
+            label="Add Task"
+            append-icon="mdi-plus"
+            @click:append="addTask()"
+            @keyup.enter="addTask()"
+          ></v-text-field>
     <v-list flat>
-      <v-subheader>Todo notifications</v-subheader>
       <v-list-item-group v-model="settings" multiple>
         <div v-for="task in tasks" :key="task.id">
           <v-list-item :class="{'green lighten-3': task.done}" @click="task.done = !task.done">
@@ -10,7 +20,7 @@
                 <v-checkbox :input-value="task.done" color="green darken-3"></v-checkbox>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title :class="{'text-decoration-line-through': task.done}">{{ task.title }}</v-list-item-title>
+                <v-list-item-title :class="{'text-decoration-line-through': task.done}" v-html="task.title"></v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
                 <v-btn icon @click.stop="deleteTask(task.id)">
@@ -32,6 +42,7 @@ export default {
   data: function() {
     return {
       settings: [],
+      taskTitle: ``,
       tasks: [
         {
           id: 1,
@@ -52,6 +63,19 @@ export default {
     };
   },
   methods: {
+    addTask: function () {
+
+      if (this.taskTitle.trim() === '') {
+        return this.taskTitle = '';
+      }
+      let newTask = {
+        id: Date.now(),
+        title: this.taskTitle,
+        done: false,
+      }
+      this.tasks.push(newTask);
+      this.taskTitle = "";
+    },
     deleteTask: function (id) {
       this.tasks = this.tasks.filter(item => item.id !== id);
     },
