@@ -20,7 +20,7 @@
                 <v-checkbox :input-value="task.done" color="green darken-3"></v-checkbox>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title :class="{'text-decoration-line-through': task.done}" v-html="task.title"></v-list-item-title>
+                <v-list-item-title :class="{'text-decoration-line-through': task.done}" v-text="task.title"></v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
                 <v-btn icon @click.stop="deleteTask(task.id)">
